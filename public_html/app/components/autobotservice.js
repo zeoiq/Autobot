@@ -5,7 +5,7 @@
     AutobotService.$inject = ['$http', '$log'];
         
     function AutobotService($http, $log) {
-        var apiURL = '', debug = true;
+        var apiURL = '', debug = false;
         if(debug)
             apiURL = 'http://localhost:8080';
 

@@ -1,7 +1,7 @@
-var IISLog = require('../app/models/IISLogStatusReport');
-var IISLogErrorStatus = require('../models/IISLogErrorStatusReport');
-var IISLogNoOfHitsAPI = require('../models/IISLogNoOfHitsAPIReport');
-var IISLogNoOfHitsAPICIP = require('../models/IISLogNoOfHitsAPICIPReport');
+var IISLog = require('../models/iisLogStatusReport');
+var IISLogErrorStatus = require('../models/iisLogErrorStatusReport');
+var IISLogNoOfHitsAPI = require('../models/iisLogNoOfHitsAPIReport');
+var IISLogNoOfHitsAPICIP = require('../models/iisLogNoOfHitsAPICIPReport');
 var fs = require('fs');
 
 module.exports = function(app) {

@@ -308,8 +308,8 @@
         /********************************************************************************************************/ 
 
         $scope.hideSeries = function (selectedItem) {
-            if(selectedItem != undefined) {
-                if(selectedItem.column != undefined) {
+            if(selectedItem !== undefined) {
+                if(selectedItem.column !== undefined) {
                 //if (selectedItem.column === null) {
                     var col = selectedItem.column;
                     var row = selectedItem.row;
