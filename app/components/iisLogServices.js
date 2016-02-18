@@ -1,4 +1,4 @@
-var IISLog = require('../models/IISLogStatusReport');
+var IISLog = require('../app/models/IISLogStatusReport');
 var IISLogErrorStatus = require('../models/IISLogErrorStatusReport');
 var IISLogNoOfHitsAPI = require('../models/IISLogNoOfHitsAPIReport');
 var IISLogNoOfHitsAPICIP = require('../models/IISLogNoOfHitsAPICIPReport');
