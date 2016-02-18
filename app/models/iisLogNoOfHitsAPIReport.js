@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+ 
 module.exports = mongoose.model('IISLogNoOfHitsAPIReport', {
     serverName : String,
 	iisLogNoOfHitsAPI : {
