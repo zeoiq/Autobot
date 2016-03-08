@@ -1,4 +1,4 @@
-angular.module('autobotSearch', ['ngRoute', 'twitterController', 'fbController', 'iisLogController', 'autobotService', 'autobotScrapeService', 'iisLogService', 'smart-table', 'myCurrentTime'])
+angular.module('autobotSearch', ['ngRoute', 'twitterController', 'fbController', 'iisLogController', 'autobotService', 'autobotScrapeService', 'iisLogService', 'settingService', 'smart-table', 'myCurrentTime'])
         .config(AbotConfig);
     
 AbotConfig.$inject = ['$mdThemingProvider', '$routeProvider'];

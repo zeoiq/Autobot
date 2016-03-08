@@ -10,8 +10,8 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var app = express();
 //var url = require('url');
 
-//var mainPath = 'public_html';
-var mainPath = 'public';
+var mainPath = 'public_html';
+//var mainPath = 'public';
     
 mongoose.connect(appConfig.dbUrl);
 

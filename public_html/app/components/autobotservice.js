@@ -2,12 +2,10 @@
     'use strict';     
     angular.module('autobotService', []).factory('botService', AutobotService); 
     
-    AutobotService.$inject = ['$http', '$log'];
+    AutobotService.$inject = ['$http', '$log', 'SettingService'];
         
-    function AutobotService($http, $log) {
-        var apiURL = '', debug = false;
-        if(debug)
-            apiURL = 'http://localhost:8080';
+    function AutobotService($http, $log, SettingService) {
+        var apiURL = SettingService.getAPIURL();
 
         return {
             get : function() {

@@ -2,12 +2,10 @@
     'use strict';     
     angular.module('autobotScrapeService', []).factory('botScrapeService', AutobotScrapeService); 
     
-    AutobotScrapeService.$inject = ['$http', '$log'];
+    AutobotScrapeService.$inject = ['$http', '$log', 'SettingService'];
         
-    function AutobotScrapeService($http, $log) {
-        var apiURL = '', debug = false;
-        if(debug)
-            apiURL = 'http://localhost:8080';
+    function AutobotScrapeService($http, $log, SettingService) {
+        var apiURL = SettingService.getAPIURL();
 
         return {
             exportTweets : function(urlTweetsReplies) {

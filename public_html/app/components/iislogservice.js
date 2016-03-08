@@ -2,12 +2,10 @@
     'use strict';     
     angular.module('iisLogService', []).factory('botIISLogService', IISLogService); 
     
-    IISLogService.$inject = ['$http', '$log'];
+    IISLogService.$inject = ['$http', '$log', 'SettingService'];
         
-    function IISLogService($http, $log) {
-        var apiURL = '', debug = false;
-        if(debug)
-            apiURL = 'http://localhost:8080';
+    function IISLogService($http, $log, SettingService) {
+        var apiURL = SettingService.getAPIURL();
 
         return {
             getIISLogStatus : function() {
