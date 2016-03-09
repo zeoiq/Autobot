@@ -1,4 +1,4 @@
-angular.module('autobotSearch', ['ngRoute', 'twitterController', 'fbController', 'iisLogController', 'autobotService', 'autobotScrapeService', 'iisLogService', 'smart-table', 'myCurrentTime'])
+angular.module('autobotSearch', ['ngRoute', 'twitterController', 'fbController', 'iisLogController', 'autobotService', 'autobotScrapeService', 'iisLogService', 'settingService', 'smart-table', 'myCurrentTime'])
         .config(AbotConfig);
     
 AbotConfig.$inject = ['$mdThemingProvider', '$routeProvider'];
@@ -1105,17 +1105,68 @@ function AbotConfig($mdThemingProvider, $routeProvider) {
             }
         };
         
+        $scope.errorStatusAPI = function (selectedItem) {
+            if(selectedItem !== undefined) {
+                if(selectedItem.column !== undefined) {
+                //if (selectedItem.column === null) {
+                    var col = selectedItem.column;
+                    var row = selectedItem.row;
+                    $log.debug('col: ' + JSON.stringify(col) + ' - row: ' + JSON.stringify(row));
+                    var data = $scope.iisLogErrorStatusBarChart.data.rows[row].c;
+                    $log.debug(data.length + ' - ' + data[0].v);
+                    
+                    var errorCode = data[0].v;
+                    botIISLogService.getIISLogErrorStatusByAPI(errorCode)
+                        .success(function(data) {
+                            var rowData = [];
+                            var rowData1 = [];
+                            var serverName = 'B';
+                            //$log.debug('getIISLogErrorStatusByAPI: ' + JSON.stringify(data));
+
+                            angular.forEach(data, function(value, key) {  
+                                rowData.push({c: [
+                                            {v: value.apiLink },
+                                            {v: parseInt(value.noOfHits)}
+                                        ]});
+                            });
+                            $scope.getIISlogErrorStatusBarChart(serverName, rowData);
+                        })
+                        .error(function(data) {
+                            $log.debug('Error: ' + data);
+                        });                     
+                }
+                if (selectedItem.row === null) {
+
+                }
+            }
+        };
+        
     }
+})();;(function() {
+    'use strict';     
+    angular.module('settingService', []).factory('SettingService', SettingService); 
+    
+    SettingService.$inject = ['$http', '$log'];
+        
+    function SettingService($http, $log) {
+        var apiURL = '', debug = false;
+        if(debug)
+            apiURL = 'http://localhost:8080';
+
+        return {
+            getAPIURL : function() {
+                return apiURL;
+            }
+        };
+    }    
 })();;(function() {
     'use strict';     
     angular.module('autobotService', []).factory('botService', AutobotService); 
     
-    AutobotService.$inject = ['$http', '$log'];
+    AutobotService.$inject = ['$http', '$log', 'SettingService'];
         
-    function AutobotService($http, $log) {
-        var apiURL = '', debug = false;
-        if(debug)
-            apiURL = 'http://localhost:8080';
+    function AutobotService($http, $log, SettingService) {
+        var apiURL = SettingService.getAPIURL();
 
         return {
             get : function() {
@@ -1138,12 +1189,10 @@ function AbotConfig($mdThemingProvider, $routeProvider) {
     'use strict';     
     angular.module('autobotScrapeService', []).factory('botScrapeService', AutobotScrapeService); 
     
-    AutobotScrapeService.$inject = ['$http', '$log'];
+    AutobotScrapeService.$inject = ['$http', '$log', 'SettingService'];
         
-    function AutobotScrapeService($http, $log) {
-        var apiURL = '', debug = false;
-        if(debug)
-            apiURL = 'http://localhost:8080';
+    function AutobotScrapeService($http, $log, SettingService) {
+        var apiURL = SettingService.getAPIURL();
 
         return {
             exportTweets : function(urlTweetsReplies) {
@@ -1175,12 +1224,10 @@ function AbotConfig($mdThemingProvider, $routeProvider) {
     'use strict';     
     angular.module('iisLogService', []).factory('botIISLogService', IISLogService); 
     
-    IISLogService.$inject = ['$http', '$log'];
+    IISLogService.$inject = ['$http', '$log', 'SettingService'];
         
-    function IISLogService($http, $log) {
-        var apiURL = '', debug = false;
-        if(debug)
-            apiURL = 'http://localhost:8080';
+    function IISLogService($http, $log, SettingService) {
+        var apiURL = SettingService.getAPIURL();
 
         return {
             getIISLogStatus : function() {
@@ -1195,6 +1242,10 @@ function AbotConfig($mdThemingProvider, $routeProvider) {
             getIISLogNoOfHitsAPICIP : function(apiLink) {
                 $log.debug('-->' + apiLink);
                 return $http({ method: 'GET', url: apiURL + '/api/iisLogNoOfHitsAPICIP', params: {apiLink: apiLink}});
+            },
+            getIISLogErrorStatusByAPI : function(errorCode) {
+                $log.debug('-->' + errorCode);
+                return $http({ method: 'GET', url: apiURL + '/api/iisLogErrorStatusByAPI', params: {errorCode: errorCode}});
             },
             put : function(twitterLinkData) {
                 //$log.debug(JSON.stringify(twitterLinkData, null, 4) + ' put:');

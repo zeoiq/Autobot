@@ -2,6 +2,7 @@ var IISLog = require('../models/iisLogStatusReport');
 var IISLogErrorStatus = require('../models/iisLogErrorStatusReport');
 var IISLogNoOfHitsAPI = require('../models/iisLogNoOfHitsAPIReport');
 var IISLogNoOfHitsAPICIP = require('../models/iisLogNoOfHitsAPICIPReport');
+var IISLogErrorStatusByAPI = require('../models/iisLogErrorStatusByAPIReport');
 var fs = require('fs');
 
 module.exports = function(app) {
@@ -220,6 +221,67 @@ module.exports = function(app) {
 
         //console.log('iisLogNoOfHitsAPICIP ---> ' + JSON.stringify(IISLogNoOfHitsAPICIP.iisLogNoOfHitsAPICIP));  
 		IISLogNoOfHitsAPICIP.create(IISLogNoOfHitsAPICIP, function(err, todo) {
+			if (err)
+				res.send(err);
+
+			res.json("200");
+		});
+	});
+    
+    /*******************************************************************************************************/
+    
+    app.get('/api/iisLogErrorStatusByAPI', function(req, res) {
+		// use mongoose to get all IIS log status in the database
+        var params = req.query.errorCode;
+
+		var query = IISLogErrorStatusByAPI.find().sort('-dateCreated').limit(1);
+        query.exec(function(err, data) {
+			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
+			if (err)
+				res.send(err);
+
+            //console.log(data[0].iisLogErrorStatusByAPI.length);//.indexOf("/UOB_OTP/otppush.aspx"));
+            //console.log('iisLogErrorStatusByAPI ---> ' + JSON.stringify(data)); 
+            
+            var dataCIP = data[0].iisLogErrorStatusByAPI;
+            var iisLogErrorStatusByAPIDetails = [];
+            for (var i = 0; i < dataCIP.length; i++) {
+                if(dataCIP[i].errorCode == params){
+                    iisLogErrorStatusByAPIDetails = dataCIP[i].iisLogErrorStatusByAPIDetails;
+                    break;
+                }
+                    
+            }
+            /*fs.writeFile('app/data3.json', JSON.stringify(data, null, 4), function(err){
+                console.log('File successfully written! - Check your project directory for the output.json file');
+            }) */
+			res.json(iisLogErrorStatusByAPIDetails); // return all todos in JSON format
+		}); 
+	});
+
+	// create iis log status and send back all 200 after creation
+	app.post('/api/iisLogErrorStatusByAPI', function(req, res) {
+        var data = req.body.LogStatus;
+        //console.log('iisLogErrorStatusByAPI ---> ' + JSON.stringify(data));         
+        
+        IISLogErrorStatusByAPI.iisLogErrorStatusByAPI = []; 
+        IISLogErrorStatusByAPI.iisLogErrorStatusByAPI.iisLogErrorStatusByAPIDetails = [];        
+         
+        IISLogErrorStatusByAPI.serverName = req.body.serverName;
+        for (var i = 0; i < data.length; i++) {            
+            var dataDetails = data[i].LogStatus;
+            var iisLogErrorStatusByAPIDataDetails = [];
+            
+            for (var x = 0; x < dataDetails.length; x++) {
+                var iisLogErrorStatusByAPIDataDetail = { apiLink: dataDetails[x].apiLink, noOfHits: dataDetails[x].noOfHits };                
+                iisLogErrorStatusByAPIDataDetails.push(iisLogErrorStatusByAPIDataDetail);
+            }
+            var iisLogErrorStatusByAPIData = { errorCode: data[i].errorCode, iisLogErrorStatusByAPIDetails: iisLogErrorStatusByAPIDataDetails };
+            IISLogErrorStatusByAPI.iisLogErrorStatusByAPI.push(iisLogErrorStatusByAPIData);
+        }
+
+        //console.log('iisLogErrorStatusByAPI ---> ' + JSON.stringify(IISLogErrorStatusByAPI.iisLogErrorStatusByAPI));  
+		IISLogErrorStatusByAPI.create(IISLogErrorStatusByAPI, function(err, todo) {
 			if (err)
 				res.send(err);
 
