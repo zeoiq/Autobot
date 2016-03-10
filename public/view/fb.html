@@ -14,6 +14,7 @@
             <a ng-click="getFB()" ng-href="" ><img ng-src="assets/img/fb-login.jpg" width="151" height="24"></a>
             <a ng-click="getTwitter()" ng-href="" ><img ng-src="assets/img/twitter-login.png" width="151" height="24"></a>
             <a ng-click="getIISLog()" ng-href="" ><img ng-src="assets/img/microsoft-iis.png" width="151" height="24"></a>
+            <a ng-click="getR()" ng-href="" ><img ng-src="assets/img/rstudio.png" width="151" height="24"></a>
             <!-- <md-button class="md-primary" ng-click="getFB()" ng-href="" target="_blank">FB</md-button> -->
             <md-card>                
                 <md-card-header>
@@ -33,7 +34,7 @@
                             <div class="md-list-item-text compact" layout="column">
                                 <h4>{{ ::item.fbPostName }}</h4>
                                 <h4>Page ID : {{ ::item.fbPageID }}</h4>
-                                <a ng-href="{{ ::item.linkFBPost }}"><p>{{ ::item.linkFBPost }}</a></p>
+                                <p><a ng-href="{{ ::item.linkFBPost }}">{{ ::item.linkFBPost }}</a></p>
                             </div>
                             <div class="timeline-badge3">
                             <a class="btn btn-sm btn-primary" ng-click="editTwitterLink(twit, item.id, $event)">

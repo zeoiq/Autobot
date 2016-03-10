@@ -1,4 +1,4 @@
-<div ng-controller="botIISLogController" ng-init="load_iislogstatus_lib()" ayout="column" ng-cloak>
+<div ng-controller="botIISLogController" ng-init="load_iislogstatus_lib()" layout="column" ng-cloak>
     <md-toolbar class="md-warn">
             <div class="md-toolbar-tools">
                 <img ng-src="assets/img/default.png" class="md-avatar" alt="Twitter" height="60" />
@@ -14,7 +14,8 @@
             <a ng-click="getFB()" ng-href="" ><img ng-src="assets/img/fb-login.jpg" width="151" height="24"></a>
             <a ng-click="getTwitter()" ng-href="" ><img ng-src="assets/img/twitter-login.png" width="151" height="24"></a>
             <a ng-click="getIISLog()" ng-href="" ><img ng-src="assets/img/microsoft-iis.png" width="151" height="24"></a>
-            </p>
+            <a ng-click="getR()" ng-href="" ><img ng-src="assets/img/rstudio.png" width="151" height="24"></a>
+            <p></p>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     Summary Report
@@ -53,7 +54,8 @@
                                                  </div> 
                                              </md-card>
                                           </md-tab-body>
-                                      </md-tab>        
+                                      </md-tab>
+                                    </md-tabs>
                                 </div> 
                             </form>
                         </md-content>

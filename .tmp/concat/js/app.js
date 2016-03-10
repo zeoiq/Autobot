@@ -20,6 +20,10 @@ function AbotConfig($mdThemingProvider, $routeProvider) {
         templateUrl: 'view/iislog.html',
         controller: 'botIISLogController'
     }).
+    when('/opencpu', {
+        templateUrl: 'view/r.html',
+        controller: 'botIISLogController'
+    }).
     otherwise({
         redirectTo: '/main'
     });
@@ -109,6 +113,10 @@ function AbotConfig($mdThemingProvider, $routeProvider) {
         
         $scope.getIISLog = function () {            
             $location.path("/iislog");  
+        };
+        
+        $scope.getR = function () {            
+            $location.path("/opencpu");  
         };
         /***********************************************************************************************************/    
 
@@ -447,6 +455,9 @@ function AbotConfig($mdThemingProvider, $routeProvider) {
             $location.path("/iislog");  
         };
         
+        $scope.getR = function () {            
+            $location.path("/opencpu");  
+        };
         /***********************************************************************************************************/    
 
         $scope.itemFBPosts = [];    
@@ -785,6 +796,10 @@ function AbotConfig($mdThemingProvider, $routeProvider) {
         
         $scope.getIISLog = function () {            
             $location.path("/iislog");  
+        };
+        
+        $scope.getR = function () {            
+            $location.path("/opencpu");  
         };
         
         /***********************************************************************************************************/    
